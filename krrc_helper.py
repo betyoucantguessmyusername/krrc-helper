@@ -25,17 +25,14 @@
 # 		 Depeche Mode - People are People - 3:53
 #		 Daft Punk - Technologic - 4:44" [not cumulative_time]
 #	IMPORTANT: lines must be exactly correct format
-#		space or tab or dash before each time
-#		no spaces/tabs/dashes at ends of lines
-#		line break after every line
-#		24 hour time
-#			hours, minutes separated by ':'
-#			no pm or am indicator at end of lines
-#		'.doc' may not work; I recommend '.txt' extension for input file
+#		space or tab or dash followed directly by time followed directly by line break
+#			time format: "[minutes]:[seconds]" (see example above)
+#	'.doc' may not work; I recommend '.txt' extension for input file
 # input start time : (hours, minutes) [24 hour time]
 
 # output: writes new file "[filename]_normalized.[extension]"
 # 	same format, but times normalized to cumulative format from start time
+#		24 hour time
 
 
 class Normalizer:
@@ -55,7 +52,7 @@ class Normalizer:
 		# write to new file
 		for old_line in old_file:
 			song_info, song_time = self.parse_str(old_line)
-			new_line = song_info+' '+self.normalize_time(song_time, cumulative_time)
+			new_line = song_info + ' ' + self.normalize_time(song_time, cumulative_time)
 			new_file.write(new_line+'\n')
 		old_file.close()
 		new_file.close()
@@ -107,10 +104,11 @@ class Normalizer:
 		minutes, seconds = int(minutes), int(seconds)
 
 		# add offset
-		minutes += 60*self.start_time[0] + self.start_time[1] + seconds/60.
+		hours = self.start_time[0]
+		minutes += self.start_time[1] + seconds/60.
 
 		# format to standard time
-		hours, minutes = self.simplify_time((0, minutes))
+		hours, minutes = self.simplify_time((hours, minutes))
 
 		return hours, minutes
 
