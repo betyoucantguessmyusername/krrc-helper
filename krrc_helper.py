@@ -38,7 +38,7 @@
 
 class Normalizer:
 
-	def __init__(self, old_file_name, start_time, cumulative_time = True):
+	def __init__(self, old_file_name, start_time, cumulative_time = False):
 		self.start_time = start_time
 		self.normalize_file(old_file_name, cumulative_time)
 
