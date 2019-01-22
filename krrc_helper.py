@@ -43,12 +43,6 @@ class Normalizer:
 		self.normalize_file(old_file_name, cumulative_time)
 
 
-	def new_file_name(self, file_name):
-		raw_file_name, file_extension = self.parse_str(file_name, separator = '.')
-		new_file_name = raw_file_name+"_normalized."+file_extension
-		return new_file_name
-
-
 	def normalize_file(self, old_file_name, cumulative_time):
 		new_file_name = self.new_file_name(old_file_name)
 		# read from old file
@@ -62,6 +56,12 @@ class Normalizer:
 			new_file.write(new_line+'\n')
 		old_file.close()
 		new_file.close()
+
+	# appends "_normalized" to file name
+	def new_file_name(self, file_name):
+		raw_file_name, file_extension = self.parse_str(file_name, separator = '.')
+		new_file_name = raw_file_name+"_normalized."+file_extension
+		return new_file_name
 
 
 	# splits string at last separator
