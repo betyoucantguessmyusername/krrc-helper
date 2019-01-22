@@ -89,31 +89,28 @@ class Normalizer:
 			# new start_time for next song
 			new_hours, new_minutes = hours, minutes
 			# current song start time
-			hours, minutes = self.start_time
+			hours, minutes = self.simplify_time(self.start_time)
 			# update start time for next song
 			self.start_time = (new_hours, new_minutes)
 
-		return self.format_time(hours, minutes)
+		return self.format_time(int(hours), int(minutes))
 
 
-	# takes time str, offsets by start_time, returns hours, min.s as ints
+	# takes time str, offsets by start_time, returns hours, min.s as floats
 	def offset_time(self, time):
 		# split time into hours, minutes
-		hours, minutes = self.parse_str(time, ':')
+		minutes, seconds = self.parse_str(time, ':')
 		# discard line break if necessary
-		if minutes[-1] is '\n':
-			minutes = minutes[:-1]
+		if seconds[-1] is '\n':
+			seconds = seconds[:-1]
 		# convert from str to int
-		hours, minutes = int(hours), int(minutes)
+		minutes, seconds = int(minutes), int(seconds)
 
 		# add offset
-		hours += self.start_time[0]
-		minutes += self.start_time[1]
+		minutes += 60*self.start_time[0] + self.start_time[1] + seconds/60.
 
 		# format to standard time
-		hours += minutes//60
-		hours = hours%24
-		minutes = minutes%60
+		hours, minutes = self.simplify_time((0, minutes))
 
 		return hours, minutes
 
@@ -131,6 +128,13 @@ class Normalizer:
 		if len(time_str)<2:
 			time_str = '0'+time_str
 		return time_str
+
+	# format to standard time (return as floats)
+	def simplify_time(self, (hours, minutes)):
+		hours = (hours + (minutes//60.)) % 24.
+		minutes = minutes%60.
+		return hours, minutes
+
 
 
 # main function
