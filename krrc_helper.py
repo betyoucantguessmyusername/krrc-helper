@@ -2,23 +2,23 @@
 # code by Joe Meyer
 
 # to use:
-# 	load this file ("python -i krrc_helper.py")
-#		make sure you're in same directory as playlist file (i.e. Desktop) AND this file (move it if necessary)
+# 	load this file ("python -i krrc_helper.py") from Terminal/shell
+#		make sure you're in same directory as playlist file (i.e. Downloads) AND this file (move it if necessary)
 # 	call "normalize(filename, start_time, cumulative_time)"
-#		- filename includes extension
-# 		- start_time is tuple(hours, minutes)
+#		- filename includes extension ('.txt' recommended) and refers to playlist/tracklist file
+# 		- start_time is tuple(hours, minutes) [24 hour time] (see example below)
 #		- cumulative_time indicates playlist time (if True) or individual song lengths (if False)
 #			boolean
 #			False by default
-# 		ex: "normalize(file_name = 'testfile.txt', start_time = (15, 25), cumulative_time = True)"
-# 			this creates new file testfile_normalized.txt with normalized times
-#			in this example start time is 15:25 and song times refer to location in playlist, not individual song lengths
+# 		ex: "normalize(file_name = 'playlist.txt', start_time = (15, 25), cumulative_time = True)"
+# 			this creates new file 'playlist_normalized.txt' with normalized times
+#			in this example start time is 15:25 [3:25 pm] and song times refer to location in playlist, not individual song lengths
 
 # input file: file of format:
 # 	"artist - song - time"
 # 	new line separating each song
 # 	ex: "AIR - Lucky and Unhappy - 00:00
-# 		 Depeche Mode - People are People - 04:31
+# 		 Depeche Mode - People are People - 4:31
 #		 Daft Punk - Technologic - 08:24" [cumulative_time]
 #	  OR
 #		"AIR - Lucky and Unhappy - 04:31
@@ -28,7 +28,6 @@
 #		space or tab or dash followed directly by time followed directly by line break
 #			time format: "[minutes]:[seconds]" (see example above)
 #	'.doc' may not work; I recommend '.txt' extension for input file
-# input start time : (hours, minutes) [24 hour time]
 
 # output: writes new file "[filename]_normalized.[extension]"
 # 	same format, but times normalized to cumulative format from start time
