@@ -95,7 +95,7 @@ class Normalizer:
 
 	# takes time str, offsets by start_time, returns hours, min.s as floats
 	def offset_time(self, time):
-		# split time into hours, minutes
+		# split time into minutes, seconds
 		minutes, seconds = self.parse_str(time, ':')
 		# discard line break if necessary
 		if seconds[-1] is '\n':
