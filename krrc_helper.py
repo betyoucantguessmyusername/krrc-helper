@@ -6,7 +6,7 @@
 #		make sure you're in same directory as playlist file (i.e. Desktop) AND this file (move it if necessary)
 # 	call "normalize(filename, start_time, cumulative_time)"
 #		- filename includes extension
-# 		- time is tuple(hours, minutes)
+# 		- start_time is tuple(hours, minutes)
 #		- cumulative_time indicates playlist time (if True) or individual song lengths (if False)
 #			boolean
 #			False by default
@@ -25,12 +25,14 @@
 # 		 Depeche Mode - People are People - 3:53
 #		 Daft Punk - Technologic - 4:44" [not cumulative_time]
 #	IMPORTANT: lines must be exactly correct format
-#		no spaces at end of lines
+#		space or tab or dash before each time
+#		no spaces/tabs/dashes at ends of lines
 #		line break after every line
 #		no pm or am indicator at end of lines
 #		24 hour time
 #			hours, minutes separated by ':'
-# 	input start time : (hours, minutes) [24 hour time]
+#		'.doc' may not work; I recommend '.txt' extension for input file
+# input start time : (hours, minutes) [24 hour time]
 
 # output: writes new file "[filename]_normalized.[extension]"
 # 	same format, but times normalized to cumulative format from start time
@@ -53,6 +55,7 @@ class Normalizer:
 		# write to new file
 		for old_line in old_file:
 			song_info, song_time = self.parse_str(old_line)
+			print("xtc: ", song_time)
 			new_line = song_info+' '+self.normalize_time(song_time, cumulative_time)
 			new_file.write(new_line+'\n')
 		old_file.close()
@@ -60,19 +63,19 @@ class Normalizer:
 
 	# appends "_normalized" to file name
 	def new_file_name(self, file_name):
-		raw_file_name, file_extension = self.parse_str(file_name, separator = '.')
+		raw_file_name, file_extension = self.parse_str(file_name, separators = ['.'])
 		new_file_name = raw_file_name+"_normalized."+file_extension
 		return new_file_name
 
 
 	# splits string at last separator
-	def parse_str(self, line, separator = ' '):
+	def parse_str(self, line, separators = [' ', '\t', '-']):
 		index = -1
 		while index >= - len(line):
-			if line[index] is separator:
+			if line[index] in separators:
 				return line[:index], line[index+1:]
 			index -= 1
-		raise Exception("second part of str must have '{}' before it".format(separator))
+		raise Exception("second part of str must have '{}' before it".format(separators[0]))
 
 
 	# adds self.start_time to time, returns song start time as string
