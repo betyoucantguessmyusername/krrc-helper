@@ -30,7 +30,7 @@
 #		no pm or am indicator at end of lines
 #		24 hour time
 #			hours, minutes separated by ':'
-# input start time : (hours, minutes) [24 hour time]
+# 	input start time : (hours, minutes) [24 hour time]
 
 # output: writes new file "[filename]_normalized.[extension]"
 # 	same format, but times normalized to cumulative format from start time
