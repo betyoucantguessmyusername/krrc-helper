@@ -71,7 +71,7 @@ class Normalizer:
 			if line[index] is separator:
 				return line[:index], line[index+1:]
 			index -= 1
-		raise Exception("time must have '{}' before it".format(separator))
+		raise Exception("second half of str must have '{}' before it".format(separator))
 
 
 	# adds self.start_time to time, returns song start time as string
