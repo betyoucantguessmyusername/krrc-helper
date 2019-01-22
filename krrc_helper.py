@@ -43,6 +43,7 @@ class Normalizer:
 		self.normalize_file(old_file_name, cumulative_time)
 
 
+	# creates new normalized file
 	def normalize_file(self, old_file_name, cumulative_time):
 		new_file_name = self.new_file_name(old_file_name)
 		# read from old file
@@ -130,7 +131,7 @@ class Normalizer:
 		return time_str
 
 
-
+# main function
 def normalize(file_name, start_time, cumulative_time = False):
 	Normalizer(file_name, start_time, cumulative_time)
 
