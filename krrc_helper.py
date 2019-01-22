@@ -25,7 +25,7 @@
 # 		 Depeche Mode - People are People - 3:53
 #		 Daft Punk - Technologic - 4:44" [not cumulative_time]
 #	IMPORTANT: lines must be exactly correct format
-#		space or tab or dash followed directly by time followed directly by line break
+#		space or tab or hyphen followed directly by time followed directly by line break
 #			time format: "[minutes]:[seconds]" (see example above)
 #	'.doc' may not work; I recommend '.txt' extension for input file
 
@@ -65,7 +65,7 @@ class Normalizer:
 
 
 	# splits string at last separator
-	def parse_str(self, line, separators = [' ', '\t', '-', '–']):
+	def parse_str(self, line, separators = [' ', '\t', '-']):
 		index = -1
 		while index >= - len(line):
 			if line[index] in separators:
