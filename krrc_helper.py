@@ -28,9 +28,9 @@
 #		space or tab or dash before each time
 #		no spaces/tabs/dashes at ends of lines
 #		line break after every line
-#		no pm or am indicator at end of lines
 #		24 hour time
 #			hours, minutes separated by ':'
+#			no pm or am indicator at end of lines
 #		'.doc' may not work; I recommend '.txt' extension for input file
 # input start time : (hours, minutes) [24 hour time]
 
