@@ -39,11 +39,12 @@ class Normalizer:
 
 	def __init__(self, old_file_name, start_time, cumulative_time = False):
 		self.start_time = start_time
-		self.normalize_file(old_file_name, cumulative_time)
+		self.cumulative_time = cumulative_time
+		self.normalize_file(old_file_name)
 
 
 	# creates new normalized file
-	def normalize_file(self, old_file_name, cumulative_time):
+	def normalize_file(self, old_file_name):
 		new_file_name = self.new_file_name(old_file_name)
 		# read from old file
 		old_file = open(old_file_name, 'r')
@@ -52,7 +53,7 @@ class Normalizer:
 		# write to new file
 		for old_line in old_file:
 			song_info, song_time = self.parse_str(old_line)
-			new_line = song_info + ' ' + self.normalize_time(song_time, cumulative_time)
+			new_line = song_info + ' ' + self.normalize_time(song_time)
 			new_file.write(new_line+'\n')
 		old_file.close()
 		new_file.close()
@@ -75,14 +76,14 @@ class Normalizer:
 
 
 	# adds self.start_time to time, returns song start time as string
-	# cumulative_time indicates format (cumulative playlist vs individual song times)
-	def normalize_time(self, time, cumulative_time):
+	def normalize_time(self, time):
 
 		# add start_time to time
 		hours, minutes = self.offset_time(time)
 
 		# save/update start time if necessary
-		if not cumulative_time:
+		# not-cumulative_time indicates format is by song length (not cumulative playlist)
+		if not self.cumulative_time:
 			# new start_time for next song
 			new_hours, new_minutes = hours, minutes
 			# current song start time
