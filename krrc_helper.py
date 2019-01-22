@@ -55,7 +55,6 @@ class Normalizer:
 		# write to new file
 		for old_line in old_file:
 			song_info, song_time = self.parse_str(old_line)
-			print("xtc: ", song_time)
 			new_line = song_info+' '+self.normalize_time(song_time, cumulative_time)
 			new_file.write(new_line+'\n')
 		old_file.close()
