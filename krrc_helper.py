@@ -71,6 +71,7 @@ class Normalizer:
 			if line[index] in separators:
 				return line[:index], line[index+1:]
 			index -= 1
+		print("Error in line {}".format(line))
 		raise Exception("second part of str must have '{}' before it".format(separators[0]))
 
 
