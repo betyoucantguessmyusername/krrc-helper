@@ -52,14 +52,20 @@ class Normalizer:
 		# write to new file
 		for old_line in old_file:
 			song_info, song_time = self.parse_str(old_line)
-			new_line = song_info + ' ' + self.normalize_time(song_time)
+			if (song_info and song_time and (':' in song_time)):
+				# if time is successfully parsed from old_line, normalize time
+				new_line = song_info + ' ' + self.normalize_time(song_time)
+			else:
+				# if no time parsed from old_line, copy old_line directly
+				new_line = self.remove_linebreak(old_line)
 			new_file.write(new_line+'\n')
 		old_file.close()
 		new_file.close()
 
 	# appends "_normalized" to file name
 	def new_file_name(self, file_name):
-		raw_file_name, file_extension = self.parse_str(file_name, separators = ['.'])
+		raw_file_name, file_extension  = self.parse_str(file_name, separators = ['.'])
+		self.check_parse(raw_file_name, file_extension)
 		new_file_name = raw_file_name+"_normalized."+file_extension
 		return new_file_name
 
@@ -71,8 +77,15 @@ class Normalizer:
 			if line[index] in separators:
 				return line[:index], line[index+1:]
 			index -= 1
-		print("Error in line {}".format(line))
-		raise Exception("second part of str must have '{}' before it".format(separators[0]))
+		print("failed to parse '{}'".format(self.remove_linebreak(line)))
+		print("second part of str must have '{}' before it to parse".format(separators[0]))
+		return None, None
+
+	# raises exception if parse failed
+	def check_parse(self, first_part, second_part):
+		if not (first_part and second_part):
+			raise Exception("parse failed")
+		return first_part, second_part
 
 
 	# adds self.start_time to time, returns song start time as string
@@ -98,9 +111,10 @@ class Normalizer:
 	def offset_time(self, time):
 		# split time into minutes, seconds
 		minutes, seconds = self.parse_str(time, ':')
+		# check that split worked, throw error if not
+		self.check_parse(minutes, seconds)
 		# discard line break if necessary
-		if seconds[-1] is '\n':
-			seconds = seconds[:-1]
+		seconds = self.remove_linebreak(seconds)
 		# convert from str to int
 		minutes, seconds = int(minutes), int(seconds)
 
@@ -133,6 +147,11 @@ class Normalizer:
 		hours = (hours + (minutes//60.)) % 24.
 		minutes = minutes%60.
 		return hours, minutes
+
+	def remove_linebreak(self, line):
+		if line[-1] == '\n':
+			return line[:-1]
+		return line
 
 
 
