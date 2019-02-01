@@ -183,7 +183,7 @@ def print_instructions():
 def wrong_num_of_args():
 	wrong_num_of_args = not (len(sys.argv) in range(4,6))
 	if wrong_num_of_args:
-		print("\n{} is WRONG NUMBER OF ARGUMENTS ".format(len(sys.argv)))
+		print("\n{} is WRONG NUMBER OF ARGUMENTS ".format(len(sys.argv)-1))
 	return wrong_num_of_args
 
 def file_not_found():
