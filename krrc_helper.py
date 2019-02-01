@@ -33,11 +33,13 @@
 # 	same format, but times normalized to cumulative format from start time
 #		24 hour time
 
+import os
+import sys
 
 class Normalizer:
 
 	def __init__(self, old_file_name, start_time, cumulative_time = False):
-		self.start_time = start_time
+		self.start_time = tuple(start_time)
 		self.cumulative_time = cumulative_time
 		self.normalize_file(old_file_name)
 
@@ -143,7 +145,8 @@ class Normalizer:
 		return time_str
 
 	# format to standard time (return as floats)
-	def simplify_time(self, (hours, minutes)):
+	def simplify_time(self, time):
+		hours, minutes = time
 		hours = (hours + (minutes//60.)) % 24.
 		minutes = minutes%60.
 		return hours, minutes
@@ -155,14 +158,75 @@ class Normalizer:
 
 
 
-# main function
+# creates new normalized file [file_name]_normalized[.txt]
 def normalize(file_name, start_time, cumulative_time = False):
 	Normalizer(file_name, start_time, cumulative_time)
 
 
 
+# Below: helper functions for main
+
+# prints usage instructions
+def print_instructions():
+	print("\n\nPlease pass [file_name] and [start_time]\n")
+	print ("Proper usage example - for 'album_tracklist.txt' a .txt file")
+	print ("stored in directory 'Documents' of user 'Foo' ")
+	print ("and a desired start time of 15:30 (3:30 pm):\n")
+	print ("- Navigate to krrc_helper.py's directory (i.e. 'cd Downloads') in shell/'Terminal' and type:")
+	print("    'python3 krrc_helper.py /Users/Foo/Documents/album_tracklist.txt 15 30'\n")
+	print("- Then look for 'album_tracklist_normalized.txt in your 'Documents' folder\n\n")
+	print ("[(  For 'cumulative_playlist.txt' example type:")
+	print ("    'python3 krrc_helper.py /Users/Foo/Documents/cumulative_playlist.txt 15 30 cumulative'  )]\n\n\n")
 
 
+# checks if system arguments entered corectly
+def wrong_num_of_args():
+	wrong_num_of_args = not (len(sys.argv) in range(4,6))
+	if wrong_num_of_args:
+		print("\n{} is WRONG NUMBER OF ARGUMENTS ".format(len(sys.argv)))
+	return wrong_num_of_args
 
+def file_not_found():
+	file_not_found = not os.path.isfile(sys.argv[1])
+	if file_not_found:
+		print("\n FILE NOT FOUND")
+	return file_not_found
+
+def time_entered_wrong():
+	time_entered_wrong = not (int(sys.argv[2])<24 and int(sys.argv[3])<60)
+	if time_entered_wrong:
+		print ("\n TIME ENTERED WRONG")
+	return time_entered_wrong
+
+def check_args():
+	user_called_program_wrong = wrong_num_of_args() or file_not_found() or time_entered_wrong() 
+	if user_called_program_wrong:
+		print_instructions()
+		return False
+	return True
+
+# unpacks sys args
+def parse_args():
+	file_name = sys.argv[1]
+	start_time = ( int(sys.argv[2]), int(sys.argv[3]) )
+	cumulative_time = False
+	# if user passed 'cumulative_time'
+	if len(sys.argv) == 5:
+		# get boolean from string
+		indicates_true = ['True', 'true', 'cumulative', 'Cumulative']
+		cumulative_time = sys.argv[4] in indicates_true
+	# return args
+	return file_name, start_time, cumulative_time
+
+
+# Main itself:
+# checks/parses system arguments, calls normalize function
+def main():
+
+	if check_args():
+		file_name, start_time, cumulative_time = parse_args()
+		normalize(file_name, start_time, cumulative_time)
+
+main()
 
 
