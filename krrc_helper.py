@@ -193,7 +193,8 @@ def file_not_found():
 	return file_not_found
 
 def time_entered_wrong():
-	time_entered_wrong = not (int(sys.argv[2])<24 and int(sys.argv[3])<60)
+	no_time = not (sys.argv[2].isdigit() and sys.argv[3].isdigit())
+	time_entered_wrong = no_time or (not (int(sys.argv[2])<24 and int(sys.argv[3])<60))
 	if time_entered_wrong:
 		print ("\n TIME ENTERED WRONG")
 	return time_entered_wrong
