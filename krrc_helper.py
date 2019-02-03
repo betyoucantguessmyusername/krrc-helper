@@ -2,15 +2,15 @@
 # code by Joe Meyer
 
 # to use:
-# 	load this file ("python -i krrc_helper.py") from Terminal/shell
-#		make sure you're in same directory as playlist file (i.e. Downloads) AND this file (move it if necessary)
-# 	call "normalize(filename, start_time, cumulative_time)"
+# 	call ("python krrc_helper.py [start_hours] [start_mins] [cumulative]") from Terminal/shell
+#		make sure you're in same directory as this file (i.e. Downloads)
 #		- filename includes extension ('.txt' recommended) and refers to playlist/tracklist file
 # 		- start_time is tuple(hours, minutes) [24 hour time] (see example below)
-#		- cumulative_time indicates playlist time (if True) or individual song lengths (if False)
+#		- [start_hours], [start_mins] is start_time [24 hour time] (see example below)
+#		- cumulative_time indicates playlist from 0 (if True) or tracklist of song lengths (if False)
 #			boolean
 #			False by default
-# 		ex: "normalize(file_name = 'playlist.txt', start_time = (15, 25), cumulative_time = True)"
+# 		ex: "python krrc_helper.py 'playlist.txt', 15, 25, True)"
 # 			this creates new file 'playlist_normalized.txt' with normalized times
 #			in this example start time is 15:25 [3:25 pm] and song times refer to location in playlist, not individual song lengths
 
