@@ -2,7 +2,7 @@
 # code by Joe Meyer
 
 # to use:
-# 	call ("python krrc_helper.py [start_hours] [start_mins] [cumulative]") from Terminal/shell
+# 	call ("python krrc_helper.py [playlist file] [start_hours] [start_mins] [cumulative]") from Terminal/shell
 #		make sure you're in same directory as this file (i.e. Downloads)
 #		- filename includes extension ('.txt' recommended) and refers to playlist/tracklist file
 #		- [start_hours], [start_mins] is start_time [24 hour time] (see example below)
