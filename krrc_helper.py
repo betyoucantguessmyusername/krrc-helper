@@ -52,13 +52,14 @@ class Normalizer:
 		new_file = open(new_file_name, 'w')
 		# write to new file
 		for old_line in old_file:
-			song_info, song_time = self.parse_str(old_line)
+			# clean old line
+			new_line = self.del_extra_space(old_line)
+			# parse it
+			song_info, song_time = self.parse_str(new_line)
+			# if time is successfully parsed from old_line, normalize time
 			if (song_info and song_time and (':' in song_time)):
-				# if time is successfully parsed from old_line, normalize time
 				new_line = song_info + ' ' + self.normalize_time(song_time)
-			else:
-				# if no time parsed from old_line, copy old_line directly
-				new_line = self.remove_linebreak(old_line)
+			# if no time parsed from old_line, copy cleaned old_line directly
 			new_file.write(new_line+'\n')
 		old_file.close()
 		new_file.close()
@@ -78,7 +79,7 @@ class Normalizer:
 			if line[index] in separators:
 				return line[:index], line[index+1:]
 			index -= 1
-		print("failed to parse '{}'".format(self.remove_linebreak(line)))
+		print("failed to parse '{}'".format(self.del_extra_space(line)))
 		print("second part of str must have '{}' before it to parse".format(separators[0]))
 		return None, None
 
@@ -115,7 +116,7 @@ class Normalizer:
 		# check that split worked, throw error if not
 		self.check_parse(minutes, seconds)
 		# discard line break if necessary
-		seconds = self.remove_linebreak(seconds)
+		seconds = self.del_extra_space(seconds)
 		# convert from str to int
 		minutes, seconds = int(minutes), int(seconds)
 
@@ -150,9 +151,9 @@ class Normalizer:
 		minutes = minutes%60.
 		return hours, minutes
 
-	def remove_linebreak(self, line):
-		if line[-1] == '\n':
-			return line[:-1]
+	def del_extra_space(self, line):
+		while line and line[-1] in ('\n', ' ', '	'):
+			line = line[:-1]
 		return line
 
 
