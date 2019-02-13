@@ -152,7 +152,7 @@ class Normalizer:
 		return hours, minutes
 
 	def del_extra_space(self, line):
-		while line and line[-1] in ('\n', ' ', '	'):
+		while line and line[-1] in ('\n', '\t', ' '):
 			line = line[:-1]
 		return line
 
