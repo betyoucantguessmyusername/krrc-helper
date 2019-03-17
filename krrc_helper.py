@@ -57,7 +57,7 @@ class Normalizer:
 			# parse it
 			song_info, song_time = self.parse_str(new_line)
 			# if time is successfully parsed from old_line, normalize time
-			if (song_info and song_time and (':' in song_time)):
+			if ':' in song_time:
 				new_line = song_info + ' ' + self.normalize_time(song_time)
 			# if no time parsed from old_line, copy cleaned old_line directly
 			new_file.write(new_line+'\n')
@@ -79,9 +79,7 @@ class Normalizer:
 			if line[index] in separators:
 				return line[:index], line[index+1:]
 			index -= 1
-		print("failed to parse '{}'".format(self.del_extra_space(line)))
-		print("second part of str must have '{}' before it to parse".format(separators[0]))
-		return None, None
+		return "", line
 
 	# raises exception if parse failed
 	def check_parse(self, first_part, second_part):
