@@ -9,7 +9,7 @@
 #		- cumulative_time indicates playlist from 0 (if True) or tracklist of song lengths (if False)
 #			boolean
 #			False by default
-# 		ex: "python krrc_helper.py 'playlist.txt', 15, 25, True)"
+# 		ex: "python krrc_helper.py playlist.txt 15 25 True"
 # 			this creates new file 'playlist_normalized.txt' with normalized times
 #			in this example start time is 15:25 [3:25 pm] and song times refer to location in playlist, not individual song lengths
 
